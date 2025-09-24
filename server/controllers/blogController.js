@@ -2,6 +2,7 @@ import Blog from '../models/Blog.js'
 import fs from 'fs'
 import imageKit from '../configs/imagekit.js'
 import Comment from '../models/Comment.js'
+import main from '../configs/gemini.js'
 
 export const addBlog = async (req, res) => {
     try {
@@ -74,7 +75,7 @@ export const deleteBlogById = async (req, res) => {
 
         // Delete all comments associated with the blog 
         await Comment.deleteMany({ blog: id })
-        
+
         res.json({ success: true, message: "Blog deleted succesfully" })
     }
     catch (error) {
@@ -111,6 +112,16 @@ export const getBlogComments = async (req, res) => {
         const { blogId } = req.body
         const comments = await Comment.find({ blog: blogId, isApproved: true }).sort({ createdAt: -1 })
         res.json({ success: true, comments })
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export const generateContent = async (req, res) => {
+    try {
+        const { prompt } = req.body
+        const content = await main(prompt + 'Generate a blog content for this topic in simple text format')
+        res.json({ success: true, content })
     } catch (error) {
         res.json({ success: false, message: error.message })
     }

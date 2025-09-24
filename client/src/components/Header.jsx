@@ -41,7 +41,7 @@ const Header = () => {
                 shadow-custom-sm cursor-pointer'>Clear Search</button>
                 }
             </div>
-            <img alt src={assets.gradientBackground} class="absolute -top-50 -z-1 opacity-50" />
+            <img alt="" src={assets.gradientBackground} class="absolute -top-50 -z-1 opacity-50" />
         </div>
     )
 }
